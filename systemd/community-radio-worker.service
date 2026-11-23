@@ -1,0 +1,18 @@
+[Unit]
+Description=Community Radio SMS Gateway - Background Worker (SMS, Call, TTS, Audio)
+After=network.target community-radio.service
+
+[Service]
+Type=simple
+User=pi
+SupplementaryGroups=dialout audio
+WorkingDirectory=/home/pi/community-radio
+EnvironmentFile=/home/pi/community-radio/.env
+ExecStart=/home/pi/community-radio/.venv/bin/python worker.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

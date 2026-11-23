@@ -1,0 +1,17 @@
+[Unit]
+Description=Community Radio SMS Gateway - Flask Dashboard and API
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/community-radio
+EnvironmentFile=/home/pi/community-radio/.env
+ExecStart=/home/pi/community-radio/.venv/bin/python -m gunicorn -w 2 -b 0.0.0.0:5000 app:app
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}SMS Inbox · Community Radio{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">SMS Inbox</h1>
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Sender</th>
+        <th>Message</th>
+        <th>Encoding</th>
+        <th>Received</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for m in messages %}
+    <tr>
+        <td>{{ m.sender }}</td>
+        <td>{{ m.message }}</td>
+        <td>{{ m.encoding }}</td>
+        <td>{{ m.received_at }}</td>
+        <td><span class="badge bg-secondary">{{ m.processing_status }}</span></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-muted">No SMS received yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

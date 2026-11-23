@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Call Management · Community Radio{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Call Management</h1>
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Caller</th>
+        <th>Status</th>
+        <th>Command</th>
+        <th>Received</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for c in calls %}
+    <tr>
+        <td>{{ c.phone_number }}</td>
+        <td>
+            {% if c.call_status == 'authorized' %}<span class="badge bg-success">Authorized</span>
+            {% elif c.call_status == 'rejected' %}<span class="badge bg-danger">Rejected</span>
+            {% else %}<span class="badge bg-secondary">{{ c.call_status }}</span>{% endif %}
+        </td>
+        <td>{{ c.command.command_code if c.command else '—' }}</td>
+        <td>{{ c.received_at }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="text-muted">No calls received yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Audio · Community Radio{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Audio Devices</h1>
+
+<div class="card mb-4"><div class="card-body">
+    <p>Player available: {% if status.player_available %}<span class="badge bg-success">Yes</span>{% else %}<span class="badge bg-secondary">No</span>{% endif %}</p>
+    <p>Configured player: <code>{{ status.configured_player }}</code></p>
+    <p>Configured device: <code>{{ status.configured_device }}</code></p>
+</div></div>
+
+<table class="table table-striped">
+    <thead><tr><th>Card</th><th>Device</th><th>Name</th><th>Description</th></tr></thead>
+    <tbody>
+    {% for d in devices %}
+    <tr><td>{{ d.card }}</td><td>{{ d.device }}</td><td>{{ d.name }}</td><td>{{ d.description }}</td></tr>
+    {% else %}
+    <tr><td colspan="4" class="text-muted">No audio devices detected (ALSA/aplay not available on this host).</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

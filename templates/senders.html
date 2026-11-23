@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Sender Management · Community Radio{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Sender Management</h1>
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Phone Number</th>
+        <th>Name</th>
+        <th>Active</th>
+        <th>SMS</th>
+        <th>Call</th>
+        <th>Registered</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in senders %}
+    <tr>
+        <td>{{ s.phone_number }}</td>
+        <td>{{ s.display_name or '—' }}</td>
+        <td>{% if s.is_active %}<span class="badge bg-success">Active</span>{% else %}<span class="badge bg-secondary">Disabled</span>{% endif %}</td>
+        <td>{{ 'Yes' if s.can_sms else 'No' }}</td>
+        <td>{{ 'Yes' if s.can_call else 'No' }}</td>
+        <td>{{ s.created_at }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="text-muted">No senders registered yet. Use the API (POST /api/v1/senders) to add one.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

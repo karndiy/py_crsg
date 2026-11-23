@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Announcements · Community Radio{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Announcements</h1>
+<div class="table-responsive">
+<table class="table table-striped align-middle">
+    <thead>
+    <tr>
+        <th>Message</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Audio</th>
+        <th>Created</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in announcements %}
+    <tr>
+        <td>{{ a.message }}</td>
+        <td><span class="badge bg-{{ 'danger' if a.priority == 'EMERGENCY' else 'warning' if a.priority == 'HIGH' else 'secondary' }}">{{ a.priority }}</span></td>
+        <td>{{ a.status }}</td>
+        <td>
+            {% if a.audio_path %}
+            <audio controls src="{{ url_for('static', filename='audio/' ~ (a.audio_path | basename)) }}" style="height:28px;"></audio>
+            {% else %}
+            <span class="text-muted">—</span>
+            {% endif %}
+        </td>
+        <td>{{ a.created_at }}</td>
+        <td class="text-nowrap">
+            <form method="post" action="/api/v1/announcements/{{ a.public_id }}/play" class="d-inline"><button class="btn btn-sm btn-outline-success">Play</button></form>
+            <form method="post" action="/api/v1/announcements/{{ a.public_id }}/stop" class="d-inline"><button class="btn btn-sm btn-outline-warning">Stop</button></form>
+            <form method="post" action="/api/v1/announcements/{{ a.public_id }}/cancel" class="d-inline"><button class="btn btn-sm btn-outline-danger">Cancel</button></form>
+        </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="text-muted">No announcements yet.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="text-muted small">Play/Stop/Cancel buttons call the REST API directly and require the
+<code>X-API-Key</code> header — wire them up to fetch() with the key from Settings before relying on them from this page.</p>
+{% endblock %}
